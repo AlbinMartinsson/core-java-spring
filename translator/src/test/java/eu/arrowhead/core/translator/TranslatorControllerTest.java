@@ -26,13 +26,13 @@ public class TranslatorControllerTest {
     //-------------------------------------------------------------------------------------------------
     @Before
     public void setup() {
-        System.out.println("\n\n\t SETUP \n\n\n");
+        //System.out.println("\n\n\t SETUP \n\n\n");
     }
 
     //-------------------------------------------------------------------------------------------------
     @Test
     public void testCase1() throws Exception {
-        System.out.println("\n\n\t Test Case 1 \n\n\n");
+        //System.out.println("\n\n\t Test Case 1 \n\n\n");
     }
 
     //=================================================================================================

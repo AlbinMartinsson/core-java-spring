@@ -20,15 +20,16 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
+
 
 public class ArrowheadDriver {
 
@@ -70,16 +71,17 @@ public class ArrowheadDriver {
         });
 
     }
-    
+
     //-------------------------------------------------------------------------------------------------
-    public void serviceRegistryUnegisterAllServices(FiwareEntity entity) {
-        logger.info("serviceRegistryUnegisterAllServices: " + entity.getId());
+    public void serviceRegistryUnregisterAllServices(FiwareEntity entity) {
+        logger.info("serviceRegistryUnregisterAllServices: " + entity.getId());
         getServicesNames(entity).forEach(serviceName -> {
             try {
                 ResponseEntity response = httpService.sendRequest(createUnregisterUri(entity, serviceName), HttpMethod.DELETE, Void.class);
                 logger.info(response.getStatusCodeValue() + " " + response.getBody());
             } catch (Exception ex) {
                 logger.warn("Exception: " + ex.getLocalizedMessage());
+                logger.debug("Exception: " + ex.getLocalizedMessage());
             }
         });
     }
@@ -91,10 +93,9 @@ public class ArrowheadDriver {
         try (final DatagramSocket socket = new DatagramSocket()) {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             return socket.getLocalAddress().getHostAddress();
-        } catch (SocketException ex) {
-        } catch (UnknownHostException ex) {
+        } catch (SocketException | UnknownHostException ex) {
+            return "127.0.0.1";
         }
-        return "127.0.0.1";
     }
 
     //-------------------------------------------------------------------------------------------------
@@ -126,7 +127,6 @@ public class ArrowheadDriver {
         final List<String> interfaces = sslProperties.isSslEnabled() ? List.of(CommonConstants.HTTP_SECURE_JSON) : List.of(CommonConstants.HTTP_INSECURE_JSON);
         result.setProviderSystem(getSystemRequestDTO(id));
         result.setServiceDefinition(getServiceDefinition(type, serviceName));
-        logger.info("Uri: " + getServiceUri(id, serviceName));
         result.setServiceUri(getServiceUri(id, serviceName));
         result.setSecure(sslProperties.isSslEnabled() ? ServiceSecurityType.CERTIFICATE.name() : ServiceSecurityType.NOT_SECURE.name());
         result.setInterfaces(interfaces);
@@ -140,11 +140,6 @@ public class ArrowheadDriver {
         result.setSystemName(id);
         result.setAddress(myIpAddress);
         result.setPort(translatorPort);
-
-        if (sslProperties.isSslEnabled()) {
-            // TODO: Enable it after security keys are fixed
-            //result.setAuthenticationInfo(Base64.getEncoder().encodeToString(publicKey.getEncoded()));
-        }
 
         return result;
     }

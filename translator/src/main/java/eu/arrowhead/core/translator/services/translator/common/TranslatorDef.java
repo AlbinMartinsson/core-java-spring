@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import org.apache.http.HttpStatus;
 
 public class TranslatorDef {
 
@@ -32,6 +33,7 @@ public class TranslatorDef {
         private final String name;
 
         public EndPoint(String name, String address) throws URISyntaxException, UnknownHostException  {
+            if (name == null || address == null) throw new UnknownHostException ("EndPoint with null name or address");
             this.name = name;
             uri = new URI(address);
             ip = InetAddress.getByName(uri.getHost());

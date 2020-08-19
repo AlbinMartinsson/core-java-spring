@@ -58,7 +58,7 @@ public class FiwareService {
     // methods
     //-------------------------------------------------------------------------------------------------
     public void start() {
-        logger.info("-- Starting FIWARE Service --");
+        logger.info("--- Starting FIWARE Service ---");
         logger.info(String.format("Broker host: [%s] port: [%d]", fiwareHost, fiwarePort));
         logger.info("-----------------------------");
     }
@@ -68,7 +68,7 @@ public class FiwareService {
     public void unregisterAll() {
         logger.info("-- Custom destroy of FIWARE Service --");
         for (Map.Entry<String,FiwareEntity> entry: entities.entrySet()) {
-            getArrowheadDriver().serviceRegistryUnegisterAllServices(entry.getValue());
+            getArrowheadDriver().serviceRegistryUnregisterAllServices(entry.getValue());
         }
         logger.info("-----------------------------");
     }
@@ -202,7 +202,7 @@ public class FiwareService {
         checkIfRemoved.forEach((id) -> {
             logger.info(String.format("REMOVE entity id:%s type:%s -> AH unregister", id, entities.get(id).getType()));
             FiwareEntity entity = entities.remove(id);
-            getArrowheadDriver().serviceRegistryUnegisterAllServices(entity);
+            getArrowheadDriver().serviceRegistryUnregisterAllServices(entity);
         });
 
     }

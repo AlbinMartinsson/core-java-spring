@@ -31,16 +31,7 @@ public class TranslatorApplicationInitListener extends ApplicationInitListener {
 	
 	
 	//=================================================================================================
-	// assistant methods
-    
-        
-        //-------------------------------------------------------------------------------------------------
-	@Override
-	protected List<CoreSystemService> getRequiredCoreSystemServiceUris() {
-
-		return List.of(CoreSystemService.AUTH_CONTROL_SUBSCRIPTION_SERVICE);
-	}
-        
+	// assistant methods        
         //-------------------------------------------------------------------------------------------------
 	@Override
 	protected void customInit(final ContextRefreshedEvent event) {

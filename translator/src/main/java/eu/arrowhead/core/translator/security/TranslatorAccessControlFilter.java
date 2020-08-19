@@ -20,6 +20,5 @@ public class TranslatorAccessControlFilter extends CoreSystemAccessControlFilter
     @Override
     protected void checkClientAuthorized(final String clientCN, final String method, final String requestTarget, final String requestJSON, final Map<String, String[]> queryParams) {
         super.checkClientAuthorized(clientCN, method, requestTarget, requestJSON, queryParams);
-        // TODO: implement translator specific logic here
     }
 }

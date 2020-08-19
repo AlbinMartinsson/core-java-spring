@@ -28,9 +28,9 @@ public class FiwareDriver {
         logger.info(String.format("New FIWARE Driver with Broker host: [%s] port: [%d]", fiwareHost, fiwarePort));
         Assert.notNull(httpService, "No HttpService");
         Assert.notNull(fiwareHost, "No fiwareHost");
-        Assert.state(fiwareHost.isBlank(), "No valid fiwareHost");
-        Assert.state(fiwareHost.isEmpty(), "No valid fiwareHost");
-        Assert.state(fiwarePort == 0, "Port not valid");
+        Assert.state(!fiwareHost.isBlank(), "No valid fiwareHost");
+        Assert.state(!fiwareHost.isEmpty(), "No valid fiwareHost");
+        Assert.state(fiwarePort > 0 || fiwarePort < 65535, "Port not valid");
         this.httpService = httpService;
         this.fiwareHost = fiwareHost;
         this.fiwarePort = fiwarePort;
